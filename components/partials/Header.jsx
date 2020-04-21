@@ -101,11 +101,12 @@ export default function Header(props){
       <style jsx>{`
         header{
           width: 100%;
-          position: absolute;
+          position: fixed;
           top: 0;
           left: 0;
           z-index: 1;
           background-image: linear-gradient(to bottom, rgba(0,0,0,.5), transparent);
+          transition: all .5s;
         }
         
         .nav{
@@ -113,6 +114,7 @@ export default function Header(props){
           display: flex;
           align-items: center;
           justify-content: center;
+          transition: all .5s;
         }
         
         .menu-toggle{
@@ -242,11 +244,13 @@ export default function Header(props){
 
 
         @media screen and (min-width: 900px){
+
           .menu-toggle{
             display: none;
           }
         
           .nav{
+            height: 10rem;
             justify-content: space-between;
           }
         
@@ -262,6 +266,14 @@ export default function Header(props){
             transition: initial;
           }
         
+          .nav-fixed{
+            background: #000 !important;
+          }
+
+          .nav-fixed .nav{
+            height: 7.2rem;
+          }
+
           .nav-item{
             margin: 0 2.4rem;
             border: none;
@@ -297,31 +309,41 @@ export default function Header(props){
             background-color: transparent;
             width: 100%;
             left: 0;
-            top: 6rem;
+            top: 9rem;
             flex-direction: row;
           }
           
+          .nav-fixed .dropdown__content{
+            top: 7rem;
+          }
           .nav-dropdown.clicked .dropdown__content {
             display: flex !important;
           }
         
           .dropdown__column {
-            color: #fff;
+            color: var(--main-font-color-dark);
             font-size: 1.6rem;
             font-weight: 100;
             display: flex;
             flex-direction: column;
           }
         
-          .dropdown__column a {
+          .dropdown__column h3{
+            margin-bottom: 2rem;
           }
-        
+
+          .dropdown__column a {
+            color: var(--body-font-color);
+          }
+
           .dropdown__row {
             padding: 2rem 4rem 3rem 4rem;
-            background-color: rgba(0,0,0,.8);
+            background-color: #fff;
             display: flex;
             flex-direction: row;
             justify-content: space-around;
+            border-bottom-right-radius: 3rem;
+            border-left: 8px solid var(--secondary-font-color);
           }
         }
       `}</style>

@@ -6,11 +6,11 @@ export default function RatedPost(props) {
     let number = props.review;
     let counter;
     for(counter=0 ;counter < number; counter++){
-      stars.push(<span className="fa fa-star checked"></span>);
+      stars.push(<span key={counter} className="fa fa-star checked"></span>);
     }
 
     while(counter < 5) {
-      stars.push(<span className="fa fa-star"></span>);
+      stars.push(<span key={counter} className="fa fa-star"></span>);
       counter++;
     }
   }
