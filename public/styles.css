@@ -139,51 +139,6 @@ p{
 }
 
 /* Latest Posts */
-.latest-post-card{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-
-.latest-post-link{
-  color: var(--main-font-color-dark);
-  transition: color .5s;
-}
-
-.latest-post-link:hover{
-  color: var(--secondary-font-color)
-}
-
-.latest-post-card > .rated-post-content{
-  display: flex;
-  flex-direction: column;
-  flex: 2;
-}
-
-.latest-post-img-wrapper{
-  flex: 1;
-  height: 8rem;
-  overflow: hidden;
-}
-
-.latest-post-date{
-  font-size: 1.2rem;
-  line-height: 2;
-  color: gray;
-}
-
-.latest-post-short-desc{
-  display: none;
-}
-
-.latest-load-more-container{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-}
-
 .btn{
   color: var(--main-font-color-dark);
   padding: .5rem;
@@ -191,13 +146,19 @@ p{
   text-align: center;
   border-radius: 1rem;
   border: 1px solid var(--main-font-color-dark);
-  transition: background-color .5s;
+  transition: all .5s;
 }
 
 .btn:hover{
-  background-color: var(--secondary-font-color);
-  border: 1px solid white;
+  background-color: black;
   color: #fff;
+}
+
+.latest-load-more-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
 }
 
 /* Media query */
@@ -220,15 +181,6 @@ p{
 
   .post-author{
     font-size: 1.9rem;
-  }
-
-  .latest-post-img-wrapper{
-    height: 16rem;
-  }
-
-  .latest-post-short-desc{
-    color: rgb(78, 78, 78);
-    display: block;
   }
 
   .latest-posts{

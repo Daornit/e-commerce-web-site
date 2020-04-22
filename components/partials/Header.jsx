@@ -1,12 +1,30 @@
+import { useState, useEffect } from 'react';
 
+export default function Header(props = {}){
 
-export default function Header(props){
+  const [toggle, setToggle] = useState(false);
+  const [dropdown, setDropdown] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  const handleScroll = (event) => {
+    let scrollTop = event.currentTarget.scrollY;
+
+    if (scrollTop > 50) setIsScrolled(true);
+    else setIsScrolled(false);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+  });
+
+ 
+
   return (
     <>
-      <header>
+      <header className={(toggle ? 'open ': '') + (isScrolled ? 'nav-fixed ': '') +  (dropdown ? 'nav-none-transparent ': '') + (props.navHideTransparent ? 'nav-none-transparent ': '')}>
         <div className="container">
           <nav className="nav">
-            <div className="menu-toggle">
+            <div className="menu-toggle" onClick={() => {setToggle(!toggle)}}>
               <i className="fas fa-bars"></i>
               <i className="fas fa-times"></i>
             </div>
@@ -15,30 +33,30 @@ export default function Header(props){
             </a>
             <ul className="nav-list">
               <li className="nav-item">
-                <a href="#" className="nav-link active">Нүүр</a>
+                <a href="/" className="nav-link active">Нүүр</a>
               </li>
               <li className="nav-item nav-dropdown">
-                <button href="#" className="nav-link">Мэдээ<i className="fa fa-caret-down"></i></button>
+                <button className="nav-link" onClick={() => {setDropdown(!dropdown)}}>Мэдээ<i className="fa fa-caret-down"></i></button>
                 <div className="dropdown__content">
                   <div className="container">
                     <div className="dropdown__row">
                       <div className="dropdown__column">
                         <h3>Category 1</h3>
-                        <a href="#">Link 1</a>
-                        <a href="#">Link 2</a>
-                        <a href="#">Link 3</a>
+                        <a href="/categories/test">Link 1</a>
+                        <a href="/categories/test">Link 2</a>
+                        <a href="/categories/test">Link 3</a>
                       </div>
                       <div className="dropdown__column">
                         <h3>Category 2</h3>
-                        <a href="#">Link 1</a>
-                        <a href="#">Link 2</a>
-                        <a href="#">Link 3</a>
+                        <a href="/categories/test">Link 1</a>
+                        <a href="/categories/test">Link 2</a>
+                        <a href="/categories/test">Link 3</a>
                       </div>
                       <div className="dropdown__column">
                         <h3>Category 3</h3>
-                        <a href="#">Link 1</a>
-                        <a href="#">Link 2</a>
-                        <a href="#">Link 3</a>
+                        <a href="/categories/test">Link 1</a>
+                        <a href="/categories/test">Link 2</a>
+                        <a href="/categories/test">Link 3</a>
                       </div>
                     </div>
                   </div>
@@ -46,7 +64,7 @@ export default function Header(props){
               </li>
 
               <li className="nav-item nav-dropdown">
-                <button href="#" className="nav-link">Gaming PC<i className="fa fa-caret-down"></i></button>
+                <button className="nav-link" onClick={() => {setDropdown(!dropdown)}}>Gaming PC<i className="fa fa-caret-down"></i></button>
                 
                 <div className="dropdown__content">
                   <div className="container">
@@ -86,19 +104,20 @@ export default function Header(props){
                 </div>
               </li>
               <li className="nav-item">
-                <a href="#" className="nav-link">Gaming Laptop</a>
+                <a href="/categories/test" className="nav-link">Gaming Laptop</a>
               </li>
               <li className="nav-item">
-                <a href="#" className="nav-link">Холбоо барих</a>
+                <a href="/contact" className="nav-link">Холбоо барих</a>
               </li>
               <li className="nav-item">
-                <a href="#" className="nav-link">Бидний тухай</a>
+                <a href="/about" className="nav-link">Бидний тухай</a>
               </li>
             </ul>
           </nav>
         </div>
       </header>
       <style jsx>{`
+
         header{
           width: 100%;
           position: fixed;
@@ -107,6 +126,11 @@ export default function Header(props){
           z-index: 1;
           background-image: linear-gradient(to bottom, rgba(0,0,0,.5), transparent);
           transition: all .5s;
+        }
+
+        .nav-none-transparent{
+          background-image: initial;
+          background: #000;
         }
         
         .nav{
@@ -319,7 +343,7 @@ export default function Header(props){
           .nav-dropdown.clicked .dropdown__content {
             display: flex !important;
           }
-        
+          
           .dropdown__column {
             color: var(--main-font-color-dark);
             font-size: 1.6rem;

@@ -1,11 +1,11 @@
 import Header from './Header'
 import Footer from './Footer'
 
-export default function Layout({children}){
+export default function Layout(props){
   return (
     <>
-      <Header/>
-        {children}
+      <Header navHideTransparent={props.navHideTransparent}/>
+        {props.children}
       <Footer/>
     </>
   );

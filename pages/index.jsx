@@ -41,7 +41,6 @@ export default function Index() {
         {/* <!--Font awesome CDN--> */}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"/>
         {/* <!--Scroll reveal CDN--> */}
-        <script src="https://unpkg.com/scrollreveal"></script>
         <script src="/main.js"></script>
       </Head>
       
