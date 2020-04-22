@@ -4,7 +4,7 @@ export default function LatestPost(props){
       <div className="latest-post-card">
         <div className="rated-post-content">
           <h2 className="rated-post-title">
-            <a href="#" className="latest-post-link">
+            <a href="/posts/test" className="latest-post-link">
               {props.title}
             </a>
           </h2>

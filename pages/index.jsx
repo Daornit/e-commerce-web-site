@@ -49,7 +49,7 @@ export default function Index() {
         <div className="container">
           <img src="/images/banner-background.jpeg" className="banner-background" alt=""/>
           <div className="banner-post">
-            <a href="#" className="link-post-title">
+            <a href="/posts/test" className="link-post-title">
               Lorem ipsum dolor, sit amet consectetur adipisicing
             </a>
             <p className="post-author">

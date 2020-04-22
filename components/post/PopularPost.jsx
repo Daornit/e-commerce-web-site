@@ -2,7 +2,7 @@
 export default function PopularPost(props) {
   return (
     <>
-      <a href="#" className="rated-post-link">
+      <a href="/posts/test" className="rated-post-link">
         <div className="popular-card">
           <div className="popular-post-img-wrapper">
             <img src={props.coverImg} className="popular-post-img" alt=""/>

@@ -25,14 +25,8 @@ export default function About() {
         </section>
       </Layout>
       <style jsx>{`
-        .header-space{
-          height: 7.2rem;
-        }
-
         @media screen and (min-width: 900px){
-          .header-space{
-            height: 10rem;
-          }
+          
         }
       `}</style>
     </>

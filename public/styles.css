@@ -48,6 +48,10 @@ p{
   padding: 0 2.4rem;
 }
 
+.header-space{
+  height: 7.2rem;
+}
+
 /* Advertisement */
 .advertisement{
   margin: 2rem 0;
@@ -161,12 +165,17 @@ p{
   margin: 0 auto;
 }
 
+
 /* Media query */
 @media screen and (min-width: 900px){
   section{
     padding: 7.9rem;
   }
 
+  .header-space{
+    height: 10rem !important;
+  }
+  
   .banner-section{
     height: 40rem;
   }

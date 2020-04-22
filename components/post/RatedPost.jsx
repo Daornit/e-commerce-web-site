@@ -17,7 +17,7 @@ export default function RatedPost(props) {
 
   return (
     <>
-      <a href="#" className="rated-post-link">
+      <a href="/posts/test" className="rated-post-link">
         <div className="rated-card">
           <img src={props.coverImg} className="rated-post-img" alt=""/>
           <div className="rated-post-content">
