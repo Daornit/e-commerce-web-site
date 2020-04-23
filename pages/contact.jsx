@@ -1,21 +1,20 @@
 import Head from 'next/head';
-import GoogleMapReact from 'google-map-react';
+import { withApollo } from '../lib/apollo';
+import { useQuery } from '@apollo/react-hooks';
+import { POSTS } from '../gql/queries';
 
 //custom components
 import Layout from '../components/partials/Layout';
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
-export default function About() {
+function Contact() {
 
-  const defaultProps = {
-    center: {
-      lat: 59.95,
-      lng: 30.33
-    },
-    zoom: 11
-  };
+  const { loading, error, data } = useQuery(POSTS);
+  if (error) return <h1>Error</h1>;
+  if (loading) return <h1>Loading...</h1>;
 
+  console.log(data);
   return (
     <>
       <Layout navHideTransparent={true}>
@@ -194,3 +193,5 @@ export default function About() {
     </>
   );
 }
+  
+export default withApollo({ ssr: true })(Contact)

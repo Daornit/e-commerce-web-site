@@ -44,7 +44,7 @@ export default function Post() {
                 <h3>зохиолч Д.Бат-Оргил</h3>
               </div>
 
-              <img src="https://i.pcmag.com/imagery/articles/01DAPv5uXtzNicEYVOsNPRi-2.fit_scale.size_1028x578.v1587507043.jpg" className="post__coverImg" alt=""/>
+              <img src="/images/post-bg-1.jpeg" className="post__coverImg" alt=""/>
             </div>
           </div>
         </section>
