@@ -70,22 +70,22 @@ return (
           </p>
           <hr />
           <p>
-            <span class="_mh6 _wsc"><span class="_3oh- _58nk" data-redactor-class="_3oh- _58nk"><strong
+            <span className="_mh6 _wsc"><span className="_3oh- _58nk" data-redactor-class="_3oh- _58nk"><strong
                   data-redactor-tag="strong">КОМПАНИЙ ҮҮСГЭН БАЙГУУЛАГЧ, ХУВЬЦАА ЭЗЭМШИГЧИЙН
                   НЭР<span></span></strong></span></span>
           </p>
           <ul>
-            <li class="pb20"><strong>Монгол Улсын Ахмадын хүч хоршоо 233687 30%</strong><br />
+            <li className="pb20"><strong>Монгол Улсын Ахмадын хүч хоршоо 233687 30%</strong><br />
               СХД 18-р хороо 1-р хороолол /Өнөр хороолол/ БЦ012-ын ангийн хашаанд
             </li>
-            <li class="pb20"><strong>Монгол Улсын Нью континент ХХК 2864282 19%</strong><br />
+            <li className="pb20"><strong>Монгол Улсын Нью континент ХХК 2864282 19%</strong><br />
               Монгол Улс, Улаанбаатар хот, Баянгол дүүрэг 4-р хороо Үйлдвэрийн баруун бүс, Баруун үйлдвэрчний гудамж
               6/2 тоот
             </li>
-            <li class="pb20"><strong>БНХАУ-ын Шан Шигийн тамхины үйлдвэр 61000000001041 41%</strong><br />
+            <li className="pb20"><strong>БНХАУ-ын Шан Шигийн тамхины үйлдвэр 61000000001041 41%</strong><br />
               БНХАУ, Ши Ан хот, Гао шин дүүрэг, Фэн Хуй гудамж
             </li>
-            <li class="pb20"><strong>БНХАУ-ын тамхины ерөнхий Шан Ши муж дахь компани 612129196304060012
+            <li className="pb20"><strong>БНХАУ-ын тамхины ерөнхий Шан Ши муж дахь компани 612129196304060012
                 10%</strong><br />
               БНХАУ, Ши Ан хот, Чю Жяны шинэ дүүрэг, Ян Нанийн 4-р гудамж
             </li>
@@ -157,6 +157,13 @@ return (
         color: var(--secondary-font-color)
       }
 
+      .content__about p{
+        font-size: 1.6rem;
+        font-weight: 100;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+      }
+
       .content__about ul {
         padding: 0 0 0 4rem;
         font-size: 1.6rem;
@@ -177,13 +184,6 @@ return (
 
         .content__about{
           width: 65rem;
-        }
-
-        .content__about p{
-          font-size: 1.6rem;
-          font-weight: 100;
-          line-height: 1.6;
-          margin-bottom: 1rem;
         }
 
         .about__banner-section {
