@@ -350,24 +350,26 @@ export default function Header(props = {}){
             font-weight: 100;
             display: flex;
             flex-direction: column;
+            border-right: 1px solid var(--body-font-color);
+            padding: 0 1rem
           }
         
           .dropdown__column h3{
             margin-bottom: 2rem;
+            color: var(--secondary-font-color);
           }
 
           .dropdown__column a {
-            color: var(--body-font-color);
+            color: #fff;
           }
 
           .dropdown__row {
             padding: 2rem 4rem 3rem 4rem;
-            background-color: #fff;
+            background-color: var(--main-font-color-dark);
             display: flex;
             flex-direction: row;
             justify-content: space-around;
-            border-bottom-right-radius: 3rem;
-            border-left: 8px solid var(--secondary-font-color);
+            border-radius: 1rem;
           }
         }
       `}</style>
