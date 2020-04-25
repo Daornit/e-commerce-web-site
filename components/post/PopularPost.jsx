@@ -1,22 +1,25 @@
+import Link from 'next/link';
 
 export default function PopularPost(props) {
   return (
     <>
-      <a href="/posts/test" className="rated-post-link">
-        <div className="popular-card">
-          <div className="popular-post-img-wrapper">
-            <img src={props.coverImg} className="popular-post-img" alt=""/>
-          </div>
-          
-          <div className="rated-post-content">
-            <div className="popular-post-access">
-              <span className="fa fa-eye"></span> {props.viewCount}
+      <Link href={"/posts/" + props.title}>
+        <a className="rated-post-link">
+          <div className="popular-card">
+            <div className="popular-post-img-wrapper">
+              <img src={props.coverImg} className="popular-post-img" alt=""/>
             </div>
-            <h2 className="rated-post-title">{props.title}</h2>
-            <p className="rated-post-author">зохиолч {props.author}</p>
+            
+            <div className="rated-post-content">
+              <div className="popular-post-access">
+                <span className="fa fa-eye"></span> {props.viewCount}
+              </div>
+              <h2 className="rated-post-title">{props.title}</h2>
+              <p className="rated-post-author">зохиолч {props.author}</p>
+            </div>
           </div>
-        </div>
-      </a>
+        </a>
+      </Link>
 
       <style jsx>{`
         .popular-card{

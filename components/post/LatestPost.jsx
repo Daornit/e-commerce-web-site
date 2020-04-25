@@ -1,12 +1,16 @@
+import Link from 'next/link';
+
 export default function LatestPost(props){
   return (
     <>
       <div className="latest-post-card">
-        <div className="rated-post-content">
+        <div className="rated-post-content padding-right">
           <h2 className="rated-post-title">
-            <a href="/posts/test" className="latest-post-link">
-              {props.title}
-            </a>
+            <Link href={"/posts/" + props.title}>
+              <a className="latest-post-link">
+                {props.title}
+              </a>
+            </Link>
           </h2>
           <p className="latest-post-short-desc">{props.shortDesc}</p>
           <p className="rated-post-author">зохиолч {props.author}</p>

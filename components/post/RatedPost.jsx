@@ -1,3 +1,4 @@
+import Link from 'next/link';
 
 export default function RatedPost(props) {
   let stars = [];
@@ -17,19 +18,21 @@ export default function RatedPost(props) {
 
   return (
     <>
-      <a href="/posts/test" className="rated-post-link">
-        <div className="rated-card">
-          <img src={props.coverImg} className="rated-post-img" alt=""/>
-          <div className="rated-post-content">
-            <div className="rated-post-review">
-              {stars}
+      <Link href={"/posts/" + props.title}>
+        <a className="rated-post-link">
+          <div className="rated-card">
+            <img src={props.coverImg} className="rated-post-img" alt=""/>
+            <div className="rated-post-content">
+              <div className="rated-post-review">
+                {stars}
+              </div>
+              <h2 className="rated-post-title">{props.title}</h2>
+              <p className="rated-post-author">зохиолч {props.author}</p>
             </div>
-            <h2 className="rated-post-title">{props.title}</h2>
-            <p className="rated-post-author">зохиолч {props.author}</p>
           </div>
-        </div>
-      </a>
-
+        </a>
+      </Link>
+      
       <style jsx>{`
         :global(.rated-post-link){
           display: block;

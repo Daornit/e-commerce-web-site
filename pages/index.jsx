@@ -1,4 +1,6 @@
 import Head from 'next/head';
+import axios from 'axios';
+import {useState, useEffect} from 'react';
 import Carousel from 'react-multi-carousel';
 
 //custom components
@@ -9,7 +11,26 @@ import PopularPost from '../components/post/PopularPost';
 import LatestPost from '../components/post/LatestPost';
 import SectionHeader from '../components/section/SectionHeader';
 
-export default function Index() {
+//backend logic
+import { withApollo } from '../lib/apollo';
+import { useQuery } from '@apollo/react-hooks';
+import { POSTS_QUERY_LIST } from '../gql/queries';
+
+function Index({homeCategory}) {
+
+  let [listPost, setListPost] = useState([]);
+  let [postPage, setPostPage] = useState(1);
+  let [hasNextPage, setHasNextPage] = useState(true);
+
+  const { loading: postLoading, error: postError, data: postData, fetchMore: postsFetchMore} = useQuery(POSTS_QUERY_LIST, {variables: {category: "5ea1703f76ee0030856b08ca",page: postPage, limit: 5}});
+
+  useEffect(()=>{
+    if(postData && postData.posts && postData.posts.docs){
+      setPostPage(postPage++);
+      setListPost([...listPost, ...postData.posts.docs]);
+      setHasNextPage(postData.posts.hasNextPage);
+    }
+  }, [postData]);
 
   const responsive = {
     superLargeDesktop: {
@@ -31,13 +52,20 @@ export default function Index() {
     }
   };
 
+  const loadMode = () => {
+    postsFetchMore({ variables: {category: "5ea1703f76ee0030856b08ca", page: postPage + 1, limit: 5}, updateQuery(_, { fetchMoreResult }) {
+      return fetchMoreResult
+    } });
+  }
+
+  
   return (
     <Layout>
       <Head>
         <meta charSet="UTF-8"/>>
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
         <meta httpEquiv="X-UA-Compatible" content="ie=edge"/>
-        <title>E-Commerce</title>
+        <title>{homeCategory.name}</title>
         {/* <!--Font awesome CDN--> */}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"/>
         {/* <!--Scroll reveal CDN--> */}
@@ -49,11 +77,11 @@ export default function Index() {
         <div className="container">
           <img src="/images/banner-background.jpeg" className="banner-background" alt=""/>
           <div className="banner-post">
-            <a href="/posts/test" className="link-post-title">
-              Lorem ipsum dolor, sit amet consectetur adipisicing
+            <a href={'/posts/' + homeCategory.bannerPost.title} className="link-post-title">
+              {homeCategory.bannerPost.title}
             </a>
             <p className="post-author">
-              зохиогч Д.Бат-Оргил
+              зохиогч {homeCategory.bannerPost.author.username}
             </p>
           </div>
         </div>
@@ -63,16 +91,7 @@ export default function Index() {
         <div className="container">
           <SectionHeader title='Цаг үеэ олсон'/>
           <div className="trend-post-grid">
-            <TrendPost coverImg="/images/post-bg-1.jpeg" title="LG best reviews in 2020" author="Д.Соёмбо"/>
-            <TrendPost coverImg="/images/post-bg-2.jpeg" title="LG best reviews in 2020" author="Д.Соёмбо"/>
-            <TrendPost coverImg="/images/post-bg-3.jpeg" title="LG best reviews in 2020" author="Д.Соёмбо"/>
-            <TrendPost coverImg="/images/post-bg-4.jpeg" title="LG best reviews in 2020" author="Д.Соёмбо"/>
-            <TrendPost coverImg="/images/post-bg-5.jpeg" title="LG best reviews in 2020" author="Д.Соёмбо"/>
-            <TrendPost coverImg="/images/post-bg-6.jpeg" title="LG best reviews in 2020" author="Д.Соёмбо"/>
-            <TrendPost coverImg="/images/post-bg-7.jpeg" title="LG best reviews in 2020" author="Д.Соёмбо"/>
-            <TrendPost coverImg="/images/post-bg-8.jpeg" title="LG best reviews in 2020" author="Д.Соёмбо"/>
-            <TrendPost coverImg="/images/post-bg-9.jpeg" title="LG best reviews in 2020" author="Д.Соёмбо"/>
-            <TrendPost coverImg="/images/post-bg-10.jpeg" title="LG best reviews in 2020" author="Д.Соёмбо"/>
+            {homeCategory.trendPosts.map(post => <TrendPost key={post._id} coverImg={post.coverImg} title={post.title} author={post.author.username}/>)}
           </div>
         </div>
       </section>
@@ -97,16 +116,7 @@ export default function Index() {
           <SectionHeader title='Өндөр үнэлгээтэй'/>
           <div>
             <Carousel responsive={responsive}>
-              <RatedPost coverImg="/images/post-bg-10.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" review={5}/>
-              <RatedPost coverImg="/images/post-bg-2.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" review={4}/>
-              <RatedPost coverImg="/images/post-bg-7.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" review={3}/>
-              <RatedPost coverImg="/images/post-bg-3.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" review={5}/>
-              <RatedPost coverImg="/images/post-bg-4.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" review={2}/>
-              <RatedPost coverImg="/images/post-bg-6.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" review={1}/>
-              <RatedPost coverImg="/images/post-bg-5.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" review={3}/>
-              <RatedPost coverImg="/images/post-bg-1.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" review={3}/>
-              <RatedPost coverImg="/images/post-bg-8.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" review={5}/>
-              <RatedPost coverImg="/images/post-bg-9.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" review={3}/>
+              {homeCategory.ratedPosts.map(post => <RatedPost key={post._id} coverImg={post.coverImg} title={post.title} author={post.author.username} review={5}/>)}
             </Carousel>
           </div>
         </div>
@@ -118,11 +128,7 @@ export default function Index() {
           <SectionHeader title='Хамгийн их хандалттай'/>
           <div>
             <Carousel responsive={responsive}>
-              <PopularPost coverImg="/images/post-bg-9.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" viewCount={1024455}/> 
-              <PopularPost coverImg="/images/post-bg-10.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" viewCount={455435}/> 
-              <PopularPost coverImg="/images/post-bg-2.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" viewCount={5554455}/> 
-              <PopularPost coverImg="/images/post-bg-1.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" viewCount={6821011}/> 
-              <PopularPost coverImg="/images/post-bg-8.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" viewCount={800700}/> 
+              {homeCategory.popularPosts.map(post => <PopularPost key={post._id} coverImg={post.coverImg} title={post.title} author={post.author.username} viewCount={1024455}/>)}
             </Carousel>
           </div>
         </div>
@@ -134,18 +140,11 @@ export default function Index() {
           <SectionHeader title='Сүүлийн үеийн нийтлэл'/>
           <div className="latest-posts">
             <div className="latest-posts-controller padding-right">
-              <LatestPost coverImg="/images/post-bg-1.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" date="2020-05-12" shortDesc="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed soluta beatae optio corporis, libero maiores iste voluptatem."/>
-              <LatestPost coverImg="/images/post-bg-8.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" date="2020-05-12" shortDesc="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed soluta beatae optio corporis, libero maiores iste voluptatem."/>
-              <LatestPost coverImg="/images/post-bg-7.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" date="2020-05-12" shortDesc="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed soluta beatae optio corporis, libero maiores iste voluptatem."/>
-              <LatestPost coverImg="/images/post-bg-6.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" date="2020-05-12" shortDesc="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed soluta beatae optio corporis, libero maiores iste voluptatem."/>
-              <LatestPost coverImg="/images/post-bg-5.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" date="2020-05-12" shortDesc="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed soluta beatae optio corporis, libero maiores iste voluptatem."/>
-              <LatestPost coverImg="/images/post-bg-4.jpeg" title="2020 оны шилдэг LG Gaming Laptop" author="Д.Соёмбо" date="2020-05-12" shortDesc="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed soluta beatae optio corporis, libero maiores iste voluptatem."/>
-              <LatestPost coverImg="/images/post-bg-3.jpeg" title="2020 оны шилдэг LG Gaming Laptop" author="Д.Соёмбо" date="2020-05-12" shortDesc="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed soluta beatae optio corporis, libero maiores iste voluptatem."/>
-              <LatestPost coverImg="/images/post-bg-2.jpeg" title="2020 оны шилдэг LG Gaming Laptop" author="Д.Соёмбо" date="2020-05-12" shortDesc="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed soluta beatae optio corporis, libero maiores iste voluptatem."/>
-              <LatestPost coverImg="/images/post-bg-1.jpeg" title="2020 оны шилдэг LG Gaming Laptop" author="Д.Соёмбо" date="2020-05-12" shortDesc="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed soluta beatae optio corporis, libero maiores iste voluptatem."/>
-              <LatestPost coverImg="/images/post-bg-10.jpeg" title="2020 оны шилдэг LG Gaming Laptop" author="Д.Соёмбо" date="2020-05-12" shortDesc="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed soluta beatae optio corporis, libero maiores iste voluptatem."/>
+              {listPost.map(post => <LatestPost key={post._id} coverImg={post.coverImg} title={post.title} author={post.author.username} shortDesc={post.shortDesc} date={post.createdDate.substr(0,10)}/>)}
               <div className="latest-load-more-container">
-                <a href="" className="btn">Цааш үзэх</a>
+                {
+                  hasNextPage ? <button onClick={(e) => loadMode()} className="btn">Цааш үзэх</button> :""
+                }
               </div>
             </div>
             {/* Latest posts */}
@@ -170,3 +169,18 @@ export default function Index() {
     </Layout>
   );
 }
+
+export async function getStaticProps() {
+  // Call an external API endpoint to get posts.
+  const res = await axios.post('http://localhost:4000/graphql', {"operationName":"homeQuery","variables":{},"query":"query homeQuery {\n  categories(id: \"5ea1703f76ee0030856b08ca\") {\n    _id\n    name\n    description\n    bannerPost {\n      _id\n      title\n      coverImg\n      author {\n        username\n        __typename\n      }\n      __typename\n    }\n    trendPosts {\n      _id\n      title\n      coverImg\n      author {\n        username\n        __typename\n      }\n      __typename\n    }\n    popularPosts {\n      _id\n      title\n      coverImg\n      author {\n        username\n        __typename\n      }\n      __typename\n    }\n    ratedPosts {\n      _id\n      title\n      coverImg\n      author {\n        username\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}\n"})
+  // By returning { props: posts }, the Blog component
+  // will receive `posts` as a prop at build time
+
+  return {
+    props: {
+      homeCategory: res.data.data.categories[0]
+    },
+  }
+}
+
+export default withApollo({ ssr: false })(Index)

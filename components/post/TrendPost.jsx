@@ -1,16 +1,19 @@
+import Link from 'next/link';
 
 export default function TrendPost(props) {
   return (
     <>
-      <a href="/posts/test" className="trend-post-link-grid-item">
-        <div className="post-card">
-          <img src={props.coverImg} className="post-card-background" alt=""/>
-          <div className="post-content">
-            <h2 className="post-title">{props.title}</h2>
-            <p className="post-author">зохиолч {props.author}</p>
+      <Link href={"/posts/" + props.title}>
+        <a className="trend-post-link-grid-item">
+          <div className="post-card">
+            <img src={props.coverImg} className="post-card-background" alt=""/>
+            <div className="post-content">
+              <h2 className="post-title">{props.title}</h2>
+              <p className="post-author">зохиолч {props.author}</p>
+            </div>
           </div>
-        </div>
-      </a>
+        </a>
+      </Link>
 
       <style jsx>{`
         .trend-post-link-grid-item:hover .post-title{
