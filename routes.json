@@ -1,0 +1,181 @@
+{
+    "routes": [
+        {
+            "href": "/",
+            "name": "Нүүр",
+            "children": []
+        },
+        {
+            "href": "/categories/Мэдээ",
+            "name": "Мэдээ",
+            "children": [
+                {
+                    "href": "/categories/Мэдээ",
+                    "name": "Мэдээ",
+                    "children": [
+                        {
+                            "href": "/categories/Мэдээ#trend-posts",
+                            "name": "Цаг үеэ олсон"
+                        },
+                        {
+                            "href": "/categories/Мэдээ#popular-posts",
+                            "name": "Хамгийн их хандалттай"
+                        },
+                        {
+                            "href": "/categories/Мэдээ#rated-posts",
+                            "name": "Өндөр үнэлгээтэй"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "href": "/categories/Gaming PC",
+            "name": "Gaming PC",
+            "children": [
+                {
+                    "href": "/categories/Gaming PC",
+                    "name": "Gaming PC",
+                    "children": [
+                        {
+                            "href": "/categories/Gaming PC#trend-posts",
+                            "name": "Цаг үеэ олсон"
+                        },
+                        {
+                            "href": "/categories/Gaming PC#popular-posts",
+                            "name": "Хамгийн их хандалттай"
+                        },
+                        {
+                            "href": "/categories/Gaming PC#rated-posts",
+                            "name": "Өндөр үнэлгээтэй"
+                        }
+                    ]
+                },
+                {
+                    "href": "/categories/Intel",
+                    "name": "Intel",
+                    "children": [
+                        {
+                            "href": "/categories/Gaming PC#trend-posts",
+                            "name": "Цаг үеэ олсон"
+                        },
+                        {
+                            "href": "/categories/Gaming PC#popular-posts",
+                            "name": "Хамгийн их хандалттай"
+                        },
+                        {
+                            "href": "/categories/Gaming PC#rated-posts",
+                            "name": "Өндөр үнэлгээтэй"
+                        }
+                    ]
+                },
+                {
+                    "href": "/categories/Alienware",
+                    "name": "Alienware",
+                    "children": [
+                        {
+                            "href": "/categories/Gaming PC#trend-posts",
+                            "name": "Цаг үеэ олсон"
+                        },
+                        {
+                            "href": "/categories/Gaming PC#popular-posts",
+                            "name": "Хамгийн их хандалттай"
+                        },
+                        {
+                            "href": "/categories/Gaming PC#rated-posts",
+                            "name": "Өндөр үнэлгээтэй"
+                        }
+                    ]
+                },
+                {
+                    "href": "/categories/HP",
+                    "name": "HP",
+                    "children": [
+                        {
+                            "href": "/categories/Gaming PC#trend-posts",
+                            "name": "Цаг үеэ олсон"
+                        },
+                        {
+                            "href": "/categories/Gaming PC#popular-posts",
+                            "name": "Хамгийн их хандалттай"
+                        },
+                        {
+                            "href": "/categories/Gaming PC#rated-posts",
+                            "name": "Өндөр үнэлгээтэй"
+                        }
+                    ]
+                },
+                {
+                    "href": "/categories/MSI",
+                    "name": "MSI",
+                    "children": [
+                        {
+                            "href": "/categories/Gaming PC#trend-posts",
+                            "name": "Цаг үеэ олсон"
+                        },
+                        {
+                            "href": "/categories/Gaming PC#popular-posts",
+                            "name": "Хамгийн их хандалттай"
+                        },
+                        {
+                            "href": "/categories/Gaming PC#rated-posts",
+                            "name": "Өндөр үнэлгээтэй"
+                        }
+                    ]
+                },
+                {
+                    "href": "/categories/Dell",
+                    "name": "Dell",
+                    "children": [
+                        {
+                            "href": "/categories/Gaming PC#trend-posts",
+                            "name": "Цаг үеэ олсон"
+                        },
+                        {
+                            "href": "/categories/Gaming PC#popular-posts",
+                            "name": "Хамгийн их хандалттай"
+                        },
+                        {
+                            "href": "/categories/Gaming PC#rated-posts",
+                            "name": "Өндөр үнэлгээтэй"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "href": "/categories/Gaming Laptop",
+            "name": "Gaming Laptop",
+            "children": [
+                {
+                    "href": "/categories/Gaming Laptop",
+                    "name": "Gaming Laptop",
+                    "children": [
+                        {
+                            "href": "/categories/Gaming Laptop#trend-posts",
+                            "name": "Цаг үеэ олсон"
+                        },
+                        {
+                            "href": "/categories/Gaming Laptop#popular-posts",
+                            "name": "Хамгийн их хандалттай"
+                        },
+                        {
+                            "href": "/categories/Gaming Laptop#rated-posts",
+                            "name": "Өндөр үнэлгээтэй"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "href": "/contact",
+            "name": "ХОЛБОО БАРИХ",
+            "children": []
+        },
+        {
+            "href": "/about",
+            "name": "БИДНИЙ ТУХАЙ",
+            "children": []
+        }
+    ]
+}

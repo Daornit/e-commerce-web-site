@@ -1,5 +1,7 @@
 import Head from 'next/head';
 import Carousel from 'react-multi-carousel';
+import {useState, useEffect} from 'react';
+import axios from 'axios';
 
 //custom components
 import Layout from '../../components/partials/Layout';
@@ -9,7 +11,27 @@ import PopularPost from '../../components/post/PopularPost';
 import LatestPost from '../../components/post/LatestPost';
 import SectionHeader from '../../components/section/SectionHeader';
 
-export default function Category() {
+//backend logic
+import { withApollo } from '../../lib/apollo';
+import { useQuery } from '@apollo/react-hooks';
+import { POSTS_QUERY_LIST } from '../../gql/queries';
+
+function Category({menuRoutes, category}) {
+
+  let [listPost, setListPost] = useState([]);
+  let [postPage, setPostPage] = useState(1);
+  let [hasNextPage, setHasNextPage] = useState(true);
+
+  const { data: postData, fetchMore: postsFetchMore} = useQuery(POSTS_QUERY_LIST, {variables: {category: category._id,page: postPage, limit: 5}});
+
+  useEffect(()=>{
+    if(postData && postData.posts && postData.posts.docs){
+      setPostPage(postPage++);
+      setListPost([...listPost, ...postData.posts.docs]);
+      setHasNextPage(postData.posts.hasNextPage);
+    }
+  }, [postData]);
+
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -30,14 +52,32 @@ export default function Category() {
     }
   };
 
+  let subLinks = category.subCategories.map(ct => <a key={ct.name} href={'/categories/' + ct.name} className="link-sub-category">{ct.name}</a>);
+
+  let bannerPost = {
+    title: "Banner post ийг тохируулана уу?",
+    author: {
+      username: ""
+    }
+  };
+
+  if(category.bannerPost) bannerPost = category.bannerPost;
+
+  const loadMode = () => {
+    postsFetchMore({ variables: {category: "5ea1703f76ee0030856b08ca", page: postPage + 1, limit: 5}, updateQuery(_, { fetchMoreResult }) {
+      return fetchMoreResult
+    } });
+  }
+
+
   return (
     <>
-      <Layout>
+      <Layout routes={menuRoutes}>
         <Head>
           <meta charSet="UTF-8"/>>
           <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
           <meta httpEquiv="X-UA-Compatible" content="ie=edge"/>
-          <title>E-Commerce</title>
+          <title>{category.name}</title>
           {/* <!--Font awesome CDN--> */}
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"/>
           {/* <!--Scroll reveal CDN--> */}
@@ -48,11 +88,11 @@ export default function Category() {
           <div className="container">
             <img src="/images/banner-background.jpeg" className="banner-background" alt=""/>
             <div className="banner-post">
-              <a href="#" className="link-post-title">
-                Lorem ipsum dolor, sit amet consectetur adipisicing
+              <a href={'/posts/' + bannerPost.title} className="link-post-title">
+                {bannerPost.title}
               </a>
               <p className="post-author">
-                зохиогч Д.Бат-Оргил
+                зохиогч {bannerPost.author.username}
               </p>
             </div>
           </div>
@@ -62,32 +102,16 @@ export default function Category() {
           <div className="container">
             <SectionHeader title='Дэд ангиллууд'/>
             <div className="sub-category">
-              <a href="#" className="link-sub-category">Category 1</a>
-              <a href="#" className="link-sub-category">Category 2</a>
-              <a href="#" className="link-sub-category">Category 3</a>
-              <a href="#" className="link-sub-category">Category 4</a>
-              <a href="#" className="link-sub-category">Category 5</a>
-              <a href="#" className="link-sub-category">Category 6</a>
-              <a href="#" className="link-sub-category">Category 7</a>
-              <a href="#" className="link-sub-category">Category 8</a>
+              {subLinks}
             </div>
           </div>
         </section>
         {/* Sub categories ends */}
-        <section className="trend-post-section">
+        <section className="trend-post-section" id="trend-posts">
           <div className="container">
-            <SectionHeader title='Ангилалын нэр -ын Цаг үеэ олсон'/>
+            <SectionHeader title='Цаг үеэ олсон'/>
             <div className="trend-post-grid">
-              <TrendPost coverImg="/images/post-bg-1.jpeg" title="LG best reviews in 2020" author="Д.Соёмбо"/>
-              <TrendPost coverImg="/images/post-bg-2.jpeg" title="LG best reviews in 2020" author="Д.Соёмбо"/>
-              <TrendPost coverImg="/images/post-bg-3.jpeg" title="LG best reviews in 2020" author="Д.Соёмбо"/>
-              <TrendPost coverImg="/images/post-bg-4.jpeg" title="LG best reviews in 2020" author="Д.Соёмбо"/>
-              <TrendPost coverImg="/images/post-bg-5.jpeg" title="LG best reviews in 2020" author="Д.Соёмбо"/>
-              <TrendPost coverImg="/images/post-bg-6.jpeg" title="LG best reviews in 2020" author="Д.Соёмбо"/>
-              <TrendPost coverImg="/images/post-bg-7.jpeg" title="LG best reviews in 2020" author="Д.Соёмбо"/>
-              <TrendPost coverImg="/images/post-bg-8.jpeg" title="LG best reviews in 2020" author="Д.Соёмбо"/>
-              <TrendPost coverImg="/images/post-bg-9.jpeg" title="LG best reviews in 2020" author="Д.Соёмбо"/>
-              <TrendPost coverImg="/images/post-bg-10.jpeg" title="LG best reviews in 2020" author="Д.Соёмбо"/>
+              {category.trendPosts.map(post => <TrendPost key={post._id} coverImg={post.coverImg} title={post.title} author={post.author.username}/>)}
             </div>
           </div>
         </section>
@@ -107,37 +131,24 @@ export default function Category() {
           </div>
         </div>
 
-        <section className="rated-post-section">
+        <section className="rated-post-section" id="rated-posts">
           <div className="container">
-            <SectionHeader title='Ангилалын нэр -ын Өндөр үнэлгээтэй'/>
+            <SectionHeader title='Өндөр үнэлгээтэй'/>
             <div>
               <Carousel responsive={responsive}>
-                <RatedPost coverImg="/images/post-bg-10.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" review={5}/>
-                <RatedPost coverImg="/images/post-bg-2.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" review={4}/>
-                <RatedPost coverImg="/images/post-bg-7.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" review={3}/>
-                <RatedPost coverImg="/images/post-bg-3.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" review={5}/>
-                <RatedPost coverImg="/images/post-bg-4.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" review={2}/>
-                <RatedPost coverImg="/images/post-bg-6.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" review={1}/>
-                <RatedPost coverImg="/images/post-bg-5.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" review={3}/>
-                <RatedPost coverImg="/images/post-bg-1.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" review={3}/>
-                <RatedPost coverImg="/images/post-bg-8.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" review={5}/>
-                <RatedPost coverImg="/images/post-bg-9.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" review={3}/>
+                {category.ratedPosts.map(post => <RatedPost key={post._id} coverImg={post.coverImg} title={post.title} author={post.author.username} review={5}/>)}
               </Carousel>
             </div>
           </div>
         </section>
         {/* Rated post section ends */}
 
-        <section className="popular-post-section">
+        <section className="popular-post-section" id="popular-posts">
           <div className="container">
-            <SectionHeader title='Ангилалын нэр -ын Хамгийн их хандалттай'/>
+            <SectionHeader title='Хамгийн их хандалттай'/>
             <div>
               <Carousel responsive={responsive}>
-                <PopularPost coverImg="/images/post-bg-9.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" viewCount={1024455}/> 
-                <PopularPost coverImg="/images/post-bg-10.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" viewCount={455435}/> 
-                <PopularPost coverImg="/images/post-bg-2.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" viewCount={5554455}/> 
-                <PopularPost coverImg="/images/post-bg-1.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" viewCount={6821011}/> 
-                <PopularPost coverImg="/images/post-bg-8.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" viewCount={800700}/> 
+                {category.popularPosts.map(post => <PopularPost key={post._id} coverImg={post.coverImg} title={post.title} author={post.author.username} viewCount={1024455}/>)}
               </Carousel>
             </div>
           </div>
@@ -146,21 +157,14 @@ export default function Category() {
 
         <section className="popular-post-section">
           <div className="container">
-            <SectionHeader title='Ангилалын нэр -ын Сүүлийн үеийн нийтлэл'/>
+            <SectionHeader title='Сүүлийн үеийн нийтлэл'/>
             <div className="latest-posts">
               <div className="latest-posts-controller padding-right">
-                <LatestPost coverImg="/images/post-bg-1.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" date="2020-05-12" shortDesc="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed soluta beatae optio corporis, libero maiores iste voluptatem."/>
-                <LatestPost coverImg="/images/post-bg-8.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" date="2020-05-12" shortDesc="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed soluta beatae optio corporis, libero maiores iste voluptatem."/>
-                <LatestPost coverImg="/images/post-bg-7.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" date="2020-05-12" shortDesc="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed soluta beatae optio corporis, libero maiores iste voluptatem."/>
-                <LatestPost coverImg="/images/post-bg-6.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" date="2020-05-12" shortDesc="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed soluta beatae optio corporis, libero maiores iste voluptatem."/>
-                <LatestPost coverImg="/images/post-bg-5.jpeg" title="2020 оны хамгийн шилдэг утаснууд" author="Д.Соёмбо" date="2020-05-12" shortDesc="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed soluta beatae optio corporis, libero maiores iste voluptatem."/>
-                <LatestPost coverImg="/images/post-bg-4.jpeg" title="2020 оны шилдэг LG Gaming Laptop" author="Д.Соёмбо" date="2020-05-12" shortDesc="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed soluta beatae optio corporis, libero maiores iste voluptatem."/>
-                <LatestPost coverImg="/images/post-bg-3.jpeg" title="2020 оны шилдэг LG Gaming Laptop" author="Д.Соёмбо" date="2020-05-12" shortDesc="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed soluta beatae optio corporis, libero maiores iste voluptatem."/>
-                <LatestPost coverImg="/images/post-bg-2.jpeg" title="2020 оны шилдэг LG Gaming Laptop" author="Д.Соёмбо" date="2020-05-12" shortDesc="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed soluta beatae optio corporis, libero maiores iste voluptatem."/>
-                <LatestPost coverImg="/images/post-bg-1.jpeg" title="2020 оны шилдэг LG Gaming Laptop" author="Д.Соёмбо" date="2020-05-12" shortDesc="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed soluta beatae optio corporis, libero maiores iste voluptatem."/>
-                <LatestPost coverImg="/images/post-bg-10.jpeg" title="2020 оны шилдэг LG Gaming Laptop" author="Д.Соёмбо" date="2020-05-12" shortDesc="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed soluta beatae optio corporis, libero maiores iste voluptatem."/>
+                {listPost.map(post => <LatestPost key={post._id} coverImg={post.coverImg} title={post.title} author={post.author.username} shortDesc={post.shortDesc} date={post.createdDate.substr(0,10)}/>)}
                 <div className="latest-load-more-container">
-                  <a href="" className="btn">Цааш үзэх</a>
+                  {
+                    hasNextPage ? <button onClick={(e) => loadMode()} className="btn">Цааш үзэх</button> :""
+                  }
                 </div>
               </div>
               {/* Latest posts */}
@@ -188,7 +192,7 @@ export default function Category() {
           
         }
 
-        .link-sub-category{
+        :global(.link-sub-category){
           display: inline-block;
           color: black;
           padding: 1rem 2rem;
@@ -211,3 +215,59 @@ export default function Category() {
     </>
   );
 }
+
+export async function getStaticPaths() {
+  const menuRoutes = await import('../../routes.json');
+  const paths = [];
+
+  for(let route of menuRoutes.routes){
+    if(route.children && route.children.length){
+      paths.push({
+        params: {
+          id: route.name
+        }
+      });
+
+      for(let category of route.children){
+        if(!category.name.includes("posts")) {
+          paths.push({
+            params: {
+              id: category.name
+            }
+          });
+        }
+      }
+    }
+  }
+  return {
+    paths: paths,
+    fallback: false
+  };
+}
+
+export async function getStaticProps({ params }) {
+  console.log(params.id);
+  const menuRoutes = await import('../../routes.json');
+  const res = await axios.post(process.env.GRAPHQL, {
+    "operationName": "retriveCategoryByName",
+    "variables": {
+        "name": params.id
+    },
+    "query": "query retriveCategoryByName($name: String!) {\n  categories(name: $name) {\n    _id\n    name\n    description\n    bannerPost {\n      _id\n      title\n      coverImg\n      author {\n        username\n      }\n    }\n    trendPosts {\n      _id\n      title\n      coverImg\n      author {\n        username\n      }\n    }\n    popularPosts {\n      _id\n      title\n      coverImg\n      author {\n        username\n      }\n    }\n    ratedPosts {\n      _id\n      title\n      coverImg\n      author {\n        username\n      }\n    }\n    subCategories {\n      _id\n      name\n    }\n  }\n}\n"
+  });
+  let category = null; 
+
+  if(res.data.data.categories.length){
+    category = res.data.data.categories[0];
+    console.log('category:: ', category);
+  }
+  
+  return {
+    props: {
+      menuRoutes: menuRoutes.routes,
+      category
+    },
+  }
+}
+
+export default withApollo({ ssr: false })(Category);

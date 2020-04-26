@@ -3,10 +3,10 @@ import Head from 'next/head';
 //custom components
 import Layout from '../components/partials/Layout';
 
-export default function About() {
+function About({menuRoutes}) {
 return (
 <>
-  <Layout>
+  <Layout routes={menuRoutes}>
 
     <Head>
       <meta charSet="UTF-8" />>
@@ -202,3 +202,14 @@ return (
 </>
 );
 }
+
+export async function getStaticProps() {
+  const menuRoutes = await import('../routes.json');
+  return {
+    props: {
+      menuRoutes: menuRoutes.routes,
+    },
+  }
+}
+
+export default About;

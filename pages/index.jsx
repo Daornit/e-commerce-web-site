@@ -16,7 +16,7 @@ import { withApollo } from '../lib/apollo';
 import { useQuery } from '@apollo/react-hooks';
 import { POSTS_QUERY_LIST } from '../gql/queries';
 
-function Index({homeCategory}) {
+function Index({homeCategory, menuRoutes}) {
 
   let [listPost, setListPost] = useState([]);
   let [postPage, setPostPage] = useState(1);
@@ -60,7 +60,7 @@ function Index({homeCategory}) {
 
   
   return (
-    <Layout>
+    <Layout routes={menuRoutes}>
       <Head>
         <meta charSet="UTF-8"/>>
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
@@ -172,13 +172,15 @@ function Index({homeCategory}) {
 
 export async function getStaticProps() {
   // Call an external API endpoint to get posts.
-  const res = await axios.post(process.env.GRAPHQL, {"operationName":"homeQuery","variables":{},"query":"query homeQuery {\n  categories(id: \"5ea1703f76ee0030856b08ca\") {\n    _id\n    name\n    description\n    bannerPost {\n      _id\n      title\n      coverImg\n      author {\n        username\n        __typename\n      }\n      __typename\n    }\n    trendPosts {\n      _id\n      title\n      coverImg\n      author {\n        username\n        __typename\n      }\n      __typename\n    }\n    popularPosts {\n      _id\n      title\n      coverImg\n      author {\n        username\n        __typename\n      }\n      __typename\n    }\n    ratedPosts {\n      _id\n      title\n      coverImg\n      author {\n        username\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}\n"})
+  const res = await axios.post(process.env.GRAPHQL, {"operationName":"homeQuery","variables":{},"query":"query homeQuery {\n  categories(id: \"5ea1703f76ee0030856b08ca\") {\n    _id\n    name\n    description\n    bannerPost {\n      _id\n      title\n      coverImg\n      author {\n        username\n      }\n    }\n    trendPosts {\n      _id\n      title\n      coverImg\n      author {\n        username\n      }\n    }\n    popularPosts {\n      _id\n      title\n      coverImg\n      author {\n        username\n      }\n    }\n    ratedPosts {\n      _id\n      title\n      coverImg\n      author {\n        username\n      }\n    }\n  }\n}\n"});
   // By returning { props: posts }, the Blog component
   // will receive `posts` as a prop at build time
-
+  const menuRoutes = await import('../routes.json');
+  console.log("menuRoutes::", menuRoutes);
   return {
     props: {
-      homeCategory: res.data.data.categories[0]
+      homeCategory: res.data.data.categories[0],
+      menuRoutes: menuRoutes.routes,
     },
   }
 }

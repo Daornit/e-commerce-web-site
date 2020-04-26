@@ -1,23 +1,13 @@
 import Head from 'next/head';
-import { withApollo } from '../lib/apollo';
-import { useQuery } from '@apollo/react-hooks';
-import { POSTS } from '../gql/queries';
 
 //custom components
 import Layout from '../components/partials/Layout';
 
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
+function Contact({menuRoutes}) {
 
-function Contact() {
-
-  const { loading, error, data } = useQuery(POSTS);
-  if (error) return <h1>Error</h1>;
-  if (loading) return <h1>Loading...</h1>;
-
-  console.log(data);
   return (
     <>
-      <Layout navHideTransparent={true}>
+      <Layout navHideTransparent={true} routes={menuRoutes}>
         <Head>
           <meta charSet="UTF-8"/>>
           <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
@@ -193,5 +183,14 @@ function Contact() {
     </>
   );
 }
+
+export async function getStaticProps() {
+  const menuRoutes = await import('../routes.json');
+  return {
+    props: {
+      menuRoutes: menuRoutes.routes,
+    },
+  }
+}
   
-export default withApollo({ ssr: true })(Contact)
+export default Contact
