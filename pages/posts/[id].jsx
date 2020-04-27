@@ -5,10 +5,10 @@ import Layout from '../../components/partials/Layout';
 import LatestPost from '../../components/post/LatestPost';
 import SectionHeader from '../../components/section/SectionHeader';
 
-export default function Post() {
+function Post({menuRoutes}) {
   return (
-    <>
-      <Layout navHideTransparent={true}>
+    <>4
+      <Layout navHideTransparent={true} routes={menuRoutes}>
         <Head>
           <meta charSet="UTF-8"/>>
           <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
@@ -191,3 +191,13 @@ export default function Post() {
     </>
   );
 }
+
+export async function getServerSideProps() {
+  const menuRoutes = await import('../../routes.json');
+  return {
+    props: {
+      menuRoutes: menuRoutes.routes,
+    },
+  }
+}
+export default Post;

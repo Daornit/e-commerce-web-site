@@ -52,7 +52,8 @@ function Category({menuRoutes, category}) {
     }
   };
 
-  let subLinks = category.subCategories.map(ct => <a key={ct.name} href={'/categories/' + ct.name} className="link-sub-category">{ct.name}</a>);
+  let subLinks = []
+  // category.subCategories.map(ct => <a key={ct.name} href={'/categories/' + ct.name} className="link-sub-category">{ct.name}</a>);
 
   let bannerPost = {
     title: "Banner post ийг тохируулана уу?",
@@ -111,7 +112,7 @@ function Category({menuRoutes, category}) {
           <div className="container">
             <SectionHeader title='Цаг үеэ олсон'/>
             <div className="trend-post-grid">
-              {category.trendPosts.map(post => <TrendPost key={post._id} coverImg={post.coverImg} title={post.title} author={post.author.username}/>)}
+              {/* {category.trendPosts.map(post => <TrendPost key={post._id} coverImg={post.coverImg} title={post.title} author={post.author.username}/>)} */}
             </div>
           </div>
         </section>
@@ -136,7 +137,7 @@ function Category({menuRoutes, category}) {
             <SectionHeader title='Өндөр үнэлгээтэй'/>
             <div>
               <Carousel responsive={responsive}>
-                {category.ratedPosts.map(post => <RatedPost key={post._id} coverImg={post.coverImg} title={post.title} author={post.author.username} review={5}/>)}
+                {/* {category.ratedPosts.map(post => <RatedPost key={post._id} coverImg={post.coverImg} title={post.title} author={post.author.username} review={5}/>)} */}
               </Carousel>
             </div>
           </div>
@@ -148,7 +149,7 @@ function Category({menuRoutes, category}) {
             <SectionHeader title='Хамгийн их хандалттай'/>
             <div>
               <Carousel responsive={responsive}>
-                {category.popularPosts.map(post => <PopularPost key={post._id} coverImg={post.coverImg} title={post.title} author={post.author.username} viewCount={1024455}/>)}
+                {/* {category.popularPosts.map(post => <PopularPost key={post._id} coverImg={post.coverImg} title={post.title} author={post.author.username} viewCount={1024455}/>)} */}
               </Carousel>
             </div>
           </div>
@@ -160,7 +161,7 @@ function Category({menuRoutes, category}) {
             <SectionHeader title='Сүүлийн үеийн нийтлэл'/>
             <div className="latest-posts">
               <div className="latest-posts-controller padding-right">
-                {listPost.map(post => <LatestPost key={post._id} coverImg={post.coverImg} title={post.title} author={post.author.username} shortDesc={post.shortDesc} date={post.createdDate.substr(0,10)}/>)}
+                {/* {listPost.map(post => <LatestPost key={post._id} coverImg={post.coverImg} title={post.title} author={post.author.username} shortDesc={post.shortDesc} date={post.createdDate.substr(0,10)}/>)} */}
                 <div className="latest-load-more-container">
                   {
                     hasNextPage ? <button onClick={(e) => loadMode()} className="btn">Цааш үзэх</button> :""
@@ -217,28 +218,20 @@ function Category({menuRoutes, category}) {
 }
 
 export async function getStaticPaths() {
-  const menuRoutes = await import('../../routes.json');
+  const res = await axios.post(process.env.GRAPHQL, {"operationName":null,"variables":{},"query":"{\n  categories {\n    name\n  }\n}\n"});
+
   const paths = [];
 
-  for(let route of menuRoutes.routes){
-    if(route.children && route.children.length){
-      paths.push({
-        params: {
-          id: route.name
-        }
-      });
-
-      for(let category of route.children){
-        if(!category.name.includes("posts")) {
-          paths.push({
-            params: {
-              id: category.name
-            }
-          });
-        }
+  for(let category of res.data.data.categories){
+    paths.push({
+      params: {
+        id: category.name
       }
-    }
+    });
   }
+
+  console.log(paths);
+  
   return {
     paths: paths,
     fallback: false
@@ -259,7 +252,6 @@ export async function getStaticProps({ params }) {
 
   if(res.data.data.categories.length){
     category = res.data.data.categories[0];
-    console.log('category:: ', category);
   }
   
   return {
