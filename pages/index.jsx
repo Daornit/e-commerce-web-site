@@ -77,7 +77,7 @@ function Index({homeCategory, menuRoutes}) {
         <div className="container">
           <img src="/images/banner-background.jpeg" className="banner-background" alt=""/>
           <div className="banner-post">
-            <a href={'/posts/' + homeCategory.bannerPost.title} className="link-post-title">
+            <a href={'/posts/' + homeCategory.bannerPost.url} className="link-post-title">
               {homeCategory.bannerPost.title}
             </a>
             <p className="post-author">
@@ -91,7 +91,7 @@ function Index({homeCategory, menuRoutes}) {
         <div className="container">
           <SectionHeader title='Цаг үеэ олсон'/>
           <div className="trend-post-grid">
-            {homeCategory.trendPosts.map(post => <TrendPost key={post._id} coverImg={post.coverImg} title={post.title} author={post.author.username}/>)}
+            {homeCategory.trendPosts.map(post => <TrendPost key={post._id} url={post.url} coverImg={post.coverImg} title={post.title} author={post.author.username}/>)}
           </div>
         </div>
       </section>
@@ -116,7 +116,7 @@ function Index({homeCategory, menuRoutes}) {
           <SectionHeader title='Өндөр үнэлгээтэй'/>
           <div>
             <Carousel responsive={responsive}>
-              {homeCategory.ratedPosts.map(post => <RatedPost key={post._id} coverImg={post.coverImg} title={post.title} author={post.author.username} review={5}/>)}
+              {homeCategory.ratedPosts.map(post => <RatedPost key={post._id} url={post.url} coverImg={post.coverImg} title={post.title} author={post.author.username} review={5}/>)}
             </Carousel>
           </div>
         </div>
@@ -128,7 +128,7 @@ function Index({homeCategory, menuRoutes}) {
           <SectionHeader title='Хамгийн их хандалттай'/>
           <div>
             <Carousel responsive={responsive}>
-              {homeCategory.popularPosts.map(post => <PopularPost key={post._id} coverImg={post.coverImg} title={post.title} author={post.author.username} viewCount={1024455}/>)}
+              {homeCategory.popularPosts.map(post => <PopularPost key={post._id} url={post.url} coverImg={post.coverImg} title={post.title} author={post.author.username} viewCount={1024455}/>)}
             </Carousel>
           </div>
         </div>
@@ -140,7 +140,7 @@ function Index({homeCategory, menuRoutes}) {
           <SectionHeader title='Сүүлийн үеийн нийтлэл'/>
           <div className="latest-posts">
             <div className="latest-posts-controller padding-right">
-              {listPost.map(post => <LatestPost key={post._id} coverImg={post.coverImg} title={post.title} author={post.author.username} shortDesc={post.shortDesc} date={post.createdDate.substr(0,10)}/>)}
+              {listPost.map(post => <LatestPost url={post.url} key={post._id} coverImg={post.coverImg} title={post.title} author={post.author.username} shortDesc={post.shortDesc} date={post.createdDate.substr(0,10)}/>)}
               <div className="latest-load-more-container">
                 {
                   hasNextPage ? <button onClick={(e) => loadMode()} className="btn">Цааш үзэх</button> :""
@@ -172,7 +172,7 @@ function Index({homeCategory, menuRoutes}) {
 
 export async function getStaticProps() {
   // Call an external API endpoint to get posts.
-  const res = await axios.post(process.env.GRAPHQL, {"operationName":"homeQuery","variables":{},"query":"query homeQuery {\n  categories(id: \"5ea1703f76ee0030856b08ca\") {\n    _id\n    name\n    description\n    bannerPost {\n      _id\n      title\n      coverImg\n      author {\n        username\n      }\n    }\n    trendPosts {\n      _id\n      title\n      coverImg\n      author {\n        username\n      }\n    }\n    popularPosts {\n      _id\n      title\n      coverImg\n      author {\n        username\n      }\n    }\n    ratedPosts {\n      _id\n      title\n      coverImg\n      author {\n        username\n      }\n    }\n  }\n}\n"});
+  const res = await axios.post(process.env.GRAPHQL, {"operationName":null,"variables":{"name":"Gaming PC"},"query":"{\n  categories(id: \"5ea1703f76ee0030856b08ca\") {\n    _id\n    name\n    description\n    bannerPost {\n      _id\n      title\n      url\n      coverImg\n      author {\n        username\n      }\n    }\n    trendPosts {\n      _id\n      title\n      url\n      coverImg\n      author {\n        username\n      }\n    }\n    popularPosts {\n      _id\n      title\n      url\n      coverImg\n      author {\n        username\n      }\n    }\n    ratedPosts {\n      _id\n      title\n      url\n      coverImg\n      author {\n        username\n      }\n    }\n  }\n}\n"});
   // By returning { props: posts }, the Blog component
   // will receive `posts` as a prop at build time
   const menuRoutes = await import('../routes.json');

@@ -175,6 +175,28 @@ p{
   width: 100%;
 }
 
+.rated-post-review .checked{
+  color: var(--secondary-font-color)
+}
+
+.common-post-link{
+  display: block;
+  margin: 0 1rem;
+}
+
+.common-post-content{
+  color: var(--main-font-color-dark);
+  padding: 1rem 0;
+}
+
+.common-post-title{
+  font-size: 1.8rem;
+  transition: color .5s;
+}
+
+.common-post-link:hover .common-post-title{
+  color: var(--secondary-font-color)
+}
 
 /* Media query */
 @media screen and (min-width: 900px){
@@ -208,5 +230,10 @@ p{
 
   .padding-right{
     padding-right: 1rem !important;
+  }
+
+  .common-post-author{
+    line-height: 2;
+    color: gray;
   }
 }

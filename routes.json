@@ -1,6 +1,5 @@
 {
-    "routes": [
-        {
+    "routes": [{
             "href": "/",
             "name": "Нүүр",
             "children": []
@@ -8,36 +7,31 @@
         {
             "href": "/categories/Мэдээ",
             "name": "Мэдээ",
-            "children": [
-                {
-                    "href": "/categories/Мэдээ",
-                    "name": "Мэдээ",
-                    "children": [
-                        {
-                            "href": "/categories/Мэдээ#trend-posts",
-                            "name": "Цаг үеэ олсон"
-                        },
-                        {
-                            "href": "/categories/Мэдээ#popular-posts",
-                            "name": "Хамгийн их хандалттай"
-                        },
-                        {
-                            "href": "/categories/Мэдээ#rated-posts",
-                            "name": "Өндөр үнэлгээтэй"
-                        }
-                    ]
-                }
-            ]
+            "children": [{
+                "href": "/categories/Мэдээ",
+                "name": "Мэдээ",
+                "children": [{
+                        "href": "/categories/Мэдээ#trend-posts",
+                        "name": "Цаг үеэ олсон"
+                    },
+                    {
+                        "href": "/categories/Мэдээ#popular-posts",
+                        "name": "Хамгийн их хандалттай"
+                    },
+                    {
+                        "href": "/categories/Мэдээ#rated-posts",
+                        "name": "Өндөр үнэлгээтэй"
+                    }
+                ]
+            }]
         },
         {
             "href": "/categories/Gaming PC",
             "name": "Gaming PC",
-            "children": [
-                {
+            "children": [{
                     "href": "/categories/Gaming PC",
                     "name": "Gaming PC",
-                    "children": [
-                        {
+                    "children": [{
                             "href": "/categories/Gaming PC#trend-posts",
                             "name": "Цаг үеэ олсон"
                         },
@@ -54,17 +48,16 @@
                 {
                     "href": "/categories/Intel",
                     "name": "Intel",
-                    "children": [
-                        {
-                            "href": "/categories/Gaming PC#trend-posts",
+                    "children": [{
+                            "href": "/categories/Intel#trend-posts",
                             "name": "Цаг үеэ олсон"
                         },
                         {
-                            "href": "/categories/Gaming PC#popular-posts",
+                            "href": "/categories/Intel#popular-posts",
                             "name": "Хамгийн их хандалттай"
                         },
                         {
-                            "href": "/categories/Gaming PC#rated-posts",
+                            "href": "/categories/Intel#rated-posts",
                             "name": "Өндөр үнэлгээтэй"
                         }
                     ]
@@ -72,17 +65,16 @@
                 {
                     "href": "/categories/Alienware",
                     "name": "Alienware",
-                    "children": [
-                        {
-                            "href": "/categories/Gaming PC#trend-posts",
+                    "children": [{
+                            "href": "/categories/Alienware#trend-posts",
                             "name": "Цаг үеэ олсон"
                         },
                         {
-                            "href": "/categories/Gaming PC#popular-posts",
+                            "href": "/categories/Alienware#popular-posts",
                             "name": "Хамгийн их хандалттай"
                         },
                         {
-                            "href": "/categories/Gaming PC#rated-posts",
+                            "href": "/categories/Alienware#rated-posts",
                             "name": "Өндөр үнэлгээтэй"
                         }
                     ]
@@ -90,17 +82,16 @@
                 {
                     "href": "/categories/HP",
                     "name": "HP",
-                    "children": [
-                        {
-                            "href": "/categories/Gaming PC#trend-posts",
+                    "children": [{
+                            "href": "/categories/HP#trend-posts",
                             "name": "Цаг үеэ олсон"
                         },
                         {
-                            "href": "/categories/Gaming PC#popular-posts",
+                            "href": "/categories/HP#popular-posts",
                             "name": "Хамгийн их хандалттай"
                         },
                         {
-                            "href": "/categories/Gaming PC#rated-posts",
+                            "href": "/categories/HP#rated-posts",
                             "name": "Өндөр үнэлгээтэй"
                         }
                     ]
@@ -108,17 +99,16 @@
                 {
                     "href": "/categories/MSI",
                     "name": "MSI",
-                    "children": [
-                        {
-                            "href": "/categories/Gaming PC#trend-posts",
+                    "children": [{
+                            "href": "/categories/MSI#trend-posts",
                             "name": "Цаг үеэ олсон"
                         },
                         {
-                            "href": "/categories/Gaming PC#popular-posts",
+                            "href": "/categories/MSI#popular-posts",
                             "name": "Хамгийн их хандалттай"
                         },
                         {
-                            "href": "/categories/Gaming PC#rated-posts",
+                            "href": "/categories/MSI#rated-posts",
                             "name": "Өндөр үнэлгээтэй"
                         }
                     ]
@@ -126,17 +116,16 @@
                 {
                     "href": "/categories/Dell",
                     "name": "Dell",
-                    "children": [
-                        {
-                            "href": "/categories/Gaming PC#trend-posts",
+                    "children": [{
+                            "href": "/categories/Dell#trend-posts",
                             "name": "Цаг үеэ олсон"
                         },
                         {
-                            "href": "/categories/Gaming PC#popular-posts",
+                            "href": "/categories/Dell#popular-posts",
                             "name": "Хамгийн их хандалттай"
                         },
                         {
-                            "href": "/categories/Gaming PC#rated-posts",
+                            "href": "/categories/Dell#rated-posts",
                             "name": "Өндөр үнэлгээтэй"
                         }
                     ]
@@ -146,26 +135,23 @@
         {
             "href": "/categories/Gaming Laptop",
             "name": "Gaming Laptop",
-            "children": [
-                {
-                    "href": "/categories/Gaming Laptop",
-                    "name": "Gaming Laptop",
-                    "children": [
-                        {
-                            "href": "/categories/Gaming Laptop#trend-posts",
-                            "name": "Цаг үеэ олсон"
-                        },
-                        {
-                            "href": "/categories/Gaming Laptop#popular-posts",
-                            "name": "Хамгийн их хандалттай"
-                        },
-                        {
-                            "href": "/categories/Gaming Laptop#rated-posts",
-                            "name": "Өндөр үнэлгээтэй"
-                        }
-                    ]
-                }
-            ]
+            "children": [{
+                "href": "/categories/Gaming Laptop",
+                "name": "Gaming Laptop",
+                "children": [{
+                        "href": "/categories/Gaming Laptop#trend-posts",
+                        "name": "Цаг үеэ олсон"
+                    },
+                    {
+                        "href": "/categories/Gaming Laptop#popular-posts",
+                        "name": "Хамгийн их хандалттай"
+                    },
+                    {
+                        "href": "/categories/Gaming Laptop#rated-posts",
+                        "name": "Өндөр үнэлгээтэй"
+                    }
+                ]
+            }]
         },
         {
             "href": "/contact",

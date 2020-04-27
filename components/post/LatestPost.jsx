@@ -4,16 +4,16 @@ export default function LatestPost(props){
   return (
     <>
       <div className="latest-post-card">
-        <div className="rated-post-content padding-right">
-          <h2 className="rated-post-title">
-            <Link href={"/posts/" + props.title}>
+        <div className="common-post-content padding-right">
+          <h2 className="common-post-title">
+            <Link href={"/posts/" + props.url}>
               <a className="latest-post-link">
                 {props.title}
               </a>
             </Link>
           </h2>
           <p className="latest-post-short-desc">{props.shortDesc}</p>
-          <p className="rated-post-author">зохиолч {props.author}</p>
+          <p className="common-post-author">зохиолч {props.author}</p>
           <p className="latest-post-date">{props.date}</p>
         </div>
         
@@ -38,7 +38,7 @@ export default function LatestPost(props){
           color: var(--secondary-font-color)
         }
 
-        .latest-post-card > .rated-post-content{
+        .latest-post-card > .common-post-content{
           display: flex;
           flex-direction: column;
           flex: 2;

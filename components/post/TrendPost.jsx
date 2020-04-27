@@ -3,7 +3,7 @@ import Link from 'next/link';
 export default function TrendPost(props) {
   return (
     <>
-      <Link href={"/posts/" + props.title}>
+      <Link href={"/posts/" + props.url}>
         <a className="trend-post-link-grid-item">
           <div className="post-card">
             <img src={props.coverImg} className="post-card-background" alt=""/>

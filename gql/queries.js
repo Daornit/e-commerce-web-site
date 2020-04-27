@@ -41,6 +41,7 @@ export const POSTS_QUERY_LIST = gql`
       docs {
         _id
         title
+        url
         shortDesc
         coverImg
         type

@@ -52,8 +52,12 @@ function Category({menuRoutes, category}) {
     }
   };
 
-  let subLinks = category.subCategories.map(ct => <a key={ct.name} href={'/categories/' + ct.name} className="link-sub-category">{ct.name}</a>);
+  let subLinks = [];
 
+  if(category.subCategories){
+    subLinks = category.subCategories.map(ct => <a key={ct.name} href={'/categories/' + ct.name} className="link-sub-category">{ct.name}</a>);
+  }
+  
   let bannerPost = {
     title: "Banner post ийг тохируулана уу?",
     author: {
@@ -111,7 +115,7 @@ function Category({menuRoutes, category}) {
           <div className="container">
             <SectionHeader title='Цаг үеэ олсон'/>
             <div className="trend-post-grid">
-              {category.trendPosts.map(post => <TrendPost key={post._id} coverImg={post.coverImg} title={post.title} author={post.author.username}/>)}
+              {category.trendPosts.map(post => <TrendPost key={post._id} url={post.url} coverImg={post.coverImg} title={post.title} author={post.author.username}/>)}
             </div>
           </div>
         </section>
@@ -136,7 +140,7 @@ function Category({menuRoutes, category}) {
             <SectionHeader title='Өндөр үнэлгээтэй'/>
             <div>
               <Carousel responsive={responsive}>
-                {category.ratedPosts.map(post => <RatedPost key={post._id} coverImg={post.coverImg} title={post.title} author={post.author.username} review={5}/>)}
+                {category.ratedPosts.map(post => <RatedPost key={post._id} url={post.url} coverImg={post.coverImg} title={post.title} author={post.author.username} review={post.rate}/>)}
               </Carousel>
             </div>
           </div>
@@ -148,7 +152,7 @@ function Category({menuRoutes, category}) {
             <SectionHeader title='Хамгийн их хандалттай'/>
             <div>
               <Carousel responsive={responsive}>
-                {category.popularPosts.map(post => <PopularPost key={post._id} coverImg={post.coverImg} title={post.title} author={post.author.username} viewCount={1024455}/>)}
+                {category.popularPosts.map(post => <PopularPost key={post._id} url={post.url} coverImg={post.coverImg} title={post.title} author={post.author.username} viewCount={post.viewCount}/>)}
               </Carousel>
             </div>
           </div>
@@ -160,7 +164,7 @@ function Category({menuRoutes, category}) {
             <SectionHeader title='Сүүлийн үеийн нийтлэл'/>
             <div className="latest-posts">
               <div className="latest-posts-controller padding-right">
-                {listPost.map(post => <LatestPost key={post._id} coverImg={post.coverImg} title={post.title} author={post.author.username} shortDesc={post.shortDesc} date={post.createdDate.substr(0,10)}/>)}
+                {listPost.map(post => <LatestPost key={post._id} url={post.url} coverImg={post.coverImg} title={post.title} author={post.author.username} shortDesc={post.shortDesc} date={post.createdDate.substr(0,10)}/>)}
                 <div className="latest-load-more-container">
                   {
                     hasNextPage ? <button onClick={(e) => loadMode()} className="btn">Цааш үзэх</button> :""
@@ -228,8 +232,6 @@ export async function getStaticPaths() {
       }
     });
   }
-
-  console.log(paths);
   
   return {
     paths: paths,
@@ -238,15 +240,9 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  console.log(params.id);
   const menuRoutes = await import('../../routes.json');
-  const res = await axios.post(process.env.GRAPHQL, {
-    "operationName": "retriveCategoryByName",
-    "variables": {
-        "name": params.id
-    },
-    "query": "query retriveCategoryByName($name: String!) {\n  categories(name: $name) {\n    _id\n    name\n    description\n    bannerPost {\n      _id\n      title\n      coverImg\n      author {\n        username\n      }\n    }\n    trendPosts {\n      _id\n      title\n      coverImg\n      author {\n        username\n      }\n    }\n    popularPosts {\n      _id\n      title\n      coverImg\n      author {\n        username\n      }\n    }\n    ratedPosts {\n      _id\n      title\n      coverImg\n      author {\n        username\n      }\n    }\n    subCategories {\n      _id\n      name\n    }\n  }\n}\n"
-  });
+  const res = await axios.post(process.env.GRAPHQL, {"operationName":"retriveCategoryByName","variables":{"name":params.id},"query":"query retriveCategoryByName($name: String!) {\n  categories(name: $name) {\n    _id\n    name\n    description\n    bannerPost {\n      _id\n      title\n      coverImg\n      url\n      author {\n        username\n      }\n    }\n    trendPosts {\n      _id\n      title\n      coverImg\n      url\n      author {\n        username\n      }\n    }\n    popularPosts {\n      _id\n      title\n      coverImg\n      viewCount\n      url\n      author {\n        username\n      }\n    }\n    ratedPosts {\n      _id\n      title\n      coverImg\n      rate\n      url\n      author {\n        username\n      }\n    }\n    subCategories {\n      name\n    }\n  }\n}\n"});
+  
   let category = null; 
 
   if(res.data.data.categories.length){

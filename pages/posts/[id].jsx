@@ -1,21 +1,28 @@
 import Head from 'next/head';
+import axios from 'axios';
 
 //custom components
 import Layout from '../../components/partials/Layout';
 import LatestPost from '../../components/post/LatestPost';
 import SectionHeader from '../../components/section/SectionHeader';
 
-function Post({menuRoutes}) {
+function Post({menuRoutes, post}) {
+  if(post === 0) return ("page not found")
+
+  let categories = post.categories.map(cat => <a href={'/categories/' + cat.name} className="link-category">#{cat.name},</a>);
+
+  const desc = {__html: post.description};
   return (
-    <>4
+    <>
       <Layout navHideTransparent={true} routes={menuRoutes}>
         <Head>
           <meta charSet="UTF-8"/>>
           <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
           <meta httpEquiv="X-UA-Compatible" content="ie=edge"/>
-          <title>E-Commerce</title>
+          <title>{post.title}</title>
           {/* <!--Font awesome CDN--> */}
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"/>
+          <link rel="stylesheet" type="text/css" href="/css/ckeditor.css"></link>
           {/* <!--Scroll reveal CDN--> */}
           <script src="/main.js"></script>
         </Head>
@@ -26,33 +33,25 @@ function Post({menuRoutes}) {
         <section>
           <div className="container">
             <div className="post__header">
-              <h1 className="post__header-title">2020 оны шилдэг Gaming Laptop</h1>
-              <h1 className="post__header-shortDecs">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium, ipsum fugiat. Maxime labore, fugit qui expedita quia </h1>
+            <h1 className="post__header-title">{post.title}</h1>
+              <h1 className="post__header-shortDecs">{post.shortDesc}</h1>
               <h3 className="post__header-category">Хамрагдах ангиллууд</h3>
               <div className="sub-category">
-                <a href="#" className="link-category">#Category 1,</a>
-                <a href="#" className="link-category">#Category 2,</a>
-                <a href="#" className="link-category">#Category 3,</a>
-                <a href="#" className="link-category">#Category 4,</a>
-                <a href="#" className="link-category">#Category 5,</a>
-                <a href="#" className="link-category">#Category 6,</a>
-                <a href="#" className="link-category">#Category 7,</a>
-                <a href="#" className="link-category">#Category 8,</a>
+                {categories}
               </div>
               <div className="post__header-author">
-                <img src="https://s3.amazonaws.com/uifaces/faces/twitter/geobikas/128.jpg" className="post__profile" alt=""/>
-                <h3>зохиолч Д.Бат-Оргил</h3>
+                <img src={post.author.avatar} className="post__profile" alt=""/>
+                <h3>зохиолч {post.author.username}</h3>
               </div>
 
-              <img src="/images/post-bg-1.jpeg" className="post__coverImg" alt=""/>
+              <img src={post.coverImg} className="post__coverImg" alt=""/>
             </div>
           </div>
         </section>
         <section className="popular-post-section">
           <div className="container">
             <div className="latest-posts">
-              <div className="latest-posts-controller">
-               
+              <div className="latest-posts-controller ck-content" dangerouslySetInnerHTML={desc}>
               </div>
               {/* Latest posts */}
               <div className="latest-posts-sidebar">
@@ -88,7 +87,7 @@ function Post({menuRoutes}) {
           grid-template-columns: repeat(2, 1fr);
         }
 
-        .link-category{
+        :global(.link-category){
           display: block;
           color: black;
           padding: .5rem 0.5rem;
@@ -137,9 +136,7 @@ function Post({menuRoutes}) {
         }
 
         .latest-posts-controller{
-          height: 10rem;
           width: 100%;
-          background: yellow;
         }
 
         @media screen and (min-width: 500px){
@@ -159,8 +156,8 @@ function Post({menuRoutes}) {
             display: block;
           }
 
-          .link-category{
-            display: inline-block;
+          :global(.link-category){
+            display: inline-block !important;
           }
 
           .post__header-title{
@@ -182,9 +179,7 @@ function Post({menuRoutes}) {
 
           .latest-posts-controller{
             margin-right: 2rem;
-            height: 10rem;
             width: 100%;
-            background: yellow;
           }
         }
       `}</style>
@@ -192,11 +187,25 @@ function Post({menuRoutes}) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ params }) {
+  console.log(params.id);
+  const res = await axios.post(process.env.GRAPHQL,{
+    "operationName":null,
+    "variables":{},
+    "query":`{\n  post: retrieveSinglePost(url: \"${params.id}\") {\n    _id\n    title\n    url\n    coverImg\n    shortDesc\n    description\n    categories {\n      name\n    }\n    author {\n      avatar\n      username\n    }\n    rate\n    viewCount\n  }\n}\n`});
+
+  let post = 0;
+
+  if(res && res.data && res.data && res.data.data && res.data.data.post) {
+    post = res.data.data.post;
+  }
+
+  console.log('post ::', post);
   const menuRoutes = await import('../../routes.json');
   return {
     props: {
       menuRoutes: menuRoutes.routes,
+      post: post
     },
   }
 }
